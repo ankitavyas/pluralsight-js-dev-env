@@ -1,4 +1,4 @@
-import {getUsers} from './api/UserApi';
+import {getUsers, deleteUser} from './api/userApi';
 
 
 getUsers().then(result => {
@@ -16,5 +16,19 @@ getUsers().then(result => {
   });
 
   global.document.getElementById('users').innerHTML = userBody;
+
+
+  const deleteLinks = global.document.getElementsByClassName('deleteUser');
+
+  Array.from(deleteLinks, link => {
+      link.onclick = function(event){
+          const element = event.target;
+          event.preventDefault();
+          console.log('deleting ' + element.attributes["data-id"].value); //eslint-disable-line no-console
+          deleteUser(element.attributes["data-id"].value);
+          const row = element.parentNode.parentNode;
+          row.parentNode.removeChild(row);
+      };
+  });
 
 });
